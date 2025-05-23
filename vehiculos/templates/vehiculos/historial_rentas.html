@@ -1,0 +1,28 @@
+{% extends "vehiculos/base.html" %}
+{% block content %}
+<h2>Historial de Rentas</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Vehículo</th>
+            <th>Desde</th>
+            <th>Hasta</th>
+            <th>Días</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in reserva %}
+        <tr>
+            <td>{{ r.usuario.username }}</td>
+            <td>{{ r.vehiculo }}</td>
+            <td>{{ r.fecha_renta|date:"Y-m-d H:i" }}</td>
+            <td>{{ r.fecha_devolucion|date:"Y-m-d H:i" }}</td>
+            <td>{{ r.calcular_dias_rentado }}</td>
+            <td>${{ r.total_a_pagar }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

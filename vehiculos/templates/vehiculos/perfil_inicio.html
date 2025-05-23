@@ -1,0 +1,35 @@
+{% extends "vehiculos/base.html" %}
+{% block title %}Perfiles Inicio - RentCar{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-5">
+        {% if user.is_staff %}
+            Panel de Perfiles {{ user.username }}
+        {% else %}
+            Bienvenido a Rentcar, {{ user.username }}
+        {% endif %}
+    </h2>
+<div class="row justify-content-center g-4">
+<div class="col-md-5 col-lg-4">
+    <a href="{% url 'gestion_perfiles' %}" class="text-decoration-none">
+        <div class="card location-card p-4 text-center h-100">
+            <i class="fas fa-users-cog fa-3x mb-3" style="color: var(--primary-orange);"></i>
+            <h4 class="fw-semibold" style="color: var(--dark-gray);">Gestionar Perfiles</h4>
+            <p class="text-muted">Añadir, editar y eliminar perfiles de usuarios</p>
+        </div>
+    </a>
+</div>
+
+<div class="col-md-5 col-lg-4">
+    <a href="{% url 'verificar_licencias' %}" class="text-decoration-none">
+        <div class="card location-card p-4 text-center h-100">
+            <i class="fas fa-id-card fa-3x mb-3" style="color: var(--primary-orange);"></i>
+            <h4 class="fw-semibold" style="color: var(--dark-gray);">Verificar Licencias</h4>
+            <p class="text-muted">Revisar y aprobar licencias de conducción</p>
+        </div>
+    </a>
+</div>
+</div>
+{% endblock %}
+

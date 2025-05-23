@@ -1,0 +1,86 @@
+{% extends 'vehiculos/base.html' %}
+
+{% load static %}
+{% block content %}
+<style>
+    :root {
+        --primary-orange: #ff6b35;
+        --light-gray: #f8f9fa;
+        --dark-gray: #333333;
+    }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--light-gray);
+    }
+    .results-section {
+        padding: 40px 0;
+    }
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
+    }
+    .card-img-top {
+        height: 180px;
+        object-fit: cover;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .btn-orange {
+        background-color: var(--primary-orange);
+        border-color: var(--primary-orange);
+        color: white;
+        transition: all 0.3s;
+    }
+    .btn-orange:hover {
+        background-color: #e05a2b;
+        border-color: #e05a2b;
+        color: white;
+    }
+    .btn-danger[disabled] {
+        cursor: not-allowed;
+    }
+</style>
+
+<div class="container results-section">
+    <h2 class="mb-4">Vehículos disponibles en 
+        {% if ubicacion %}
+            {{ ubicacion.nombre }}
+        {% else %}
+            Todas las ubicaciones
+        {% endif %}
+    </h2>
+
+    {% if vehiculos %}
+        <div class="row">
+            {% for vehiculo in vehiculos %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ vehiculo.imagen }}" alt="Imagen {{ vehiculo.modelo }}" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ vehiculo.marca }} {{ vehiculo.modelo }} - {{ vehiculo.placa }}</h5>
+                            <p class="card-text">Precio: {{ vehiculo.precio_reserva }} COP</p>
+                            <p class="card-text">Precio: {{ vehiculo.precio_renta }} COP /Dia</p>
+
+                            {% if vehiculo.disponible %}
+                                <a href="{% url 'reservar_vehiculo' vehiculo.id_vehiculo %}" class="btn btn-orange">Reservar</a>
+                            {% else %}
+                                <button class="btn btn-danger" disabled>No disponible</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No hay vehículos disponibles para la ubicación seleccionada.</p>
+    {% endif %}
+    
+    <a href="{% url 'buscar_vehiculos' %}" class="btn btn-orange mt-3">Volver a buscar</a>
+</div>
+{% endblock %}
+

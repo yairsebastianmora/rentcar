@@ -1,0 +1,59 @@
+{% extends 'vehiculos/base.html' %}
+{% load static %}
+{% load form_tags %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h3 class="mb-4 text-center">Editar Perfil</h3>
+            
+            <div class="card shadow rounded-3">
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        {% if user.perfil.foto %}
+                        <div class="text-center mb-3">
+                            <img src="{{ user.perfil.foto.url }}" class="rounded-circle" alt="Foto de perfil" width="120" height="120">
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label class="form-label">Teléfono</label>
+                            {{ form.telefono|add_class:"form-control" }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Dirección</label>
+                            {{ form.direccion|add_class:"form-control" }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Fecha de nacimiento</label>
+                            {{ form.fecha_nacimiento|add_class:"form-control" }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Foto de perfil</label>
+                            {{ form.foto|add_class:"form-control" }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Número de licencia</label>
+                            {{ form.numero_licencia|add_class:"form-control" }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Licencia frontal</label>
+                            {{ form.licencia_frontal|add_class:"form-control" }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Licencia trasera</label>
+                            {{ form.licencia_trasera|add_class:"form-control" }}
+                        </div>
+
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-success">Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

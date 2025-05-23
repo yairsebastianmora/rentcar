@@ -1,0 +1,62 @@
+{% extends "vehiculos/base.html" %}
+{% block title %}Mis Reservas{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Mis Reservas</h1>
+
+    {% if reservas %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Vehículo</th>
+                    <th>Fecha de Reserva</th>
+                    <th>Usuario</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reserva in reservas %}
+                    <tr>
+                        <td>{{ reserva.vehiculo }}</td>
+                        <td>{{ reserva.fecha_reserva|date:"Y-m-d H:i" }}</td>
+                        <td>{{ reserva.usuario.username }}</td>
+                        <td>
+                            {# Mostrar botón Eliminar si el usuario es admin o dueño de la reserva #}
+                            {% if user.is_superuser or reserva.usuario == user %}
+                                <form method="POST" action="{% url 'eliminar_reserva' reserva.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                </form>
+                            {% endif %}
+
+                            {# Mostrar botón Rentar si ya pagó y aún no ha rentado #}
+                            {% if reserva.pagado and not reserva.rentado %}
+                                <form method="POST" action="{% url 'rentar_vehiculo' reserva.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success btn-sm">Rentar</button>
+                                </form>
+
+                            {# Mostrar estado Rentado y botón Devolver si no ha sido devuelto #}
+                            {% elif reserva.rentado and not reserva.devuelto %}
+                                <span class="badge bg-primary">Rentado</span>
+                                <form method="POST" action="{% url 'devolver_vehiculo' reserva.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-warning btn-sm mt-1">Devolver</button>
+                                </form>
+
+                            {# Mostrar etiqueta Devuelto si ya fue devuelto #}
+                            {% elif reserva.devuelto %}
+                                <span class="badge bg-secondary">Devuelto</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay reservas aún.</p>
+    {% endif %}
+</div>
+{% endblock %}
+

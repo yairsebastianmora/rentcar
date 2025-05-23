@@ -1,0 +1,78 @@
+{% extends 'vehiculos/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-orange: #ff6b35;
+        --light-orange: #ff9e71;
+        --white: #ffffff;
+        --light-gray: #f8f9fa;
+        --dark-gray: #333333;
+    }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--light-gray);
+    }
+    .hero-section {
+        background: linear-gradient(rgba(255, 107, 53, 0.9), rgba(255, 107, 53, 0.9)),
+                    url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        min-height: 60vh;
+        color: white;
+    }
+    .search-card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        background-color: white;
+    }
+    .btn-orange {
+        background-color: var(--primary-orange);
+        border-color: var(--primary-orange);
+        color: white;
+        transition: all 0.3s;
+    }
+    .btn-orange:hover {
+        background-color: #e05a2b;
+        border-color: #e05a2b;
+        color: white;
+        transform: translateY(-2px);
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="hero-section d-flex align-items-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center animate__animated animate__fadeIn">
+                <h1 class="display-5 fw-bold mb-4">Encuentra el vehículo perfecto</h1>
+                <p class="lead mb-5">Selecciona una ubicación para ver los vehículos disponibles</p>
+
+                <div class="search-card card animate__animated animate__fadeInUp animate__delay-1s">
+                    <div class="card-body p-4">
+                        <form method="GET" action="{% url 'resultados_busqueda'%}">
+                            <select class="form-select" id="ubicacion" name="ubicacion" required>
+                               <option value="" disabled {% if not request.GET.ubicacion %}selected{% endif %}>Selecciona una ubicación</option>
+                                {% for ubicacion in ubicaciones %}
+                               <option value="{{ ubicacion.id_ubicacion }}" {% if ubicacion.id_ubicacion|stringformat:"s" == request.GET.ubicacion %}selected{% endif %}>
+                            {{ ubicacion.nombre }}
+                               </option>
+                            {% endfor %}
+                           </select>
+
+                            <button type="submit" class="btn btn-orange w-100 py-2 mt-3">
+                                <i class="fas fa-search me-2"></i>Buscar Vehículos
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

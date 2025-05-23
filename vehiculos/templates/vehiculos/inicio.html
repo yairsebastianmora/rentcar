@@ -1,0 +1,72 @@
+{% extends "vehiculos/base.html" %}
+{% block title %}Inicio - RentCar{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-5">
+        {% if user.is_staff %}
+            Bienvenido a RentCar, Admin {{ user.username }}
+        {% else %}
+            Bienvenido a Rentcar, {{ user.username }}
+        {% endif %}
+    </h2>
+
+    <div class="row justify-content-center g-4">
+        <!-- Buscar Vehículos -->
+        <div class="col-md-5 col-lg-4">
+            <a href="{% url 'buscar_vehiculos' %}" class="text-decoration-none">
+                <div class="card location-card p-4 text-center h-100">
+                    <i class="fas fa-search fa-3x mb-3" style="color: var(--primary-orange);"></i>
+                    <h4 class="fw-semibold" style="color: var(--dark-gray);">Buscar Vehículos</h4>
+                    <p class="text-muted">Encuentra el vehículo perfecto para tu viaje</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Mis Reservas -->
+        <div class="col-md-5 col-lg-4">
+            <a href="{% url 'mis_reservas' %}" class="text-decoration-none">
+                <div class="card location-card p-4 text-center h-100">
+                    <i class="fas fa-calendar-check fa-3x mb-3" style="color: var(--primary-orange);"></i>
+                    <h4 class="fw-semibold" style="color: var(--dark-gray);">Mis Reservas</h4>
+                    <p class="text-muted">Consulta y administra tus reservas actuales</p>
+                </div>
+            </a>
+        </div>
+
+        {% if user.is_staff %}
+
+        <div class="col-md-5 col-lg-4">
+    <a href="{% url 'admin_vehiculos' %}" class="text-decoration-none">
+        <div class="card location-card p-4 text-center h-100">
+            <i class="fas fa-car fa-3x mb-3" style="color: var(--primary-orange);"></i>
+            <h4 class="fw-semibold" style="color: var(--dark-gray);">Administrar Vehículos</h4>
+            <p class="text-muted">Añadir, editar, eliminar y consultar vehículos</p>
+        </div>
+    </a>
+</div>
+
+<div class="col-md-5 col-lg-4">
+    <a href="{% url 'administrar_sedes' %}" class="text-decoration-none">
+        <div class="card location-card p-4 text-center h-100">
+            <i class="fas fa-map-marker-alt fa-3x mb-3" style="color: var(--primary-orange);"></i>
+            <h4 class="fw-semibold" style="color: var(--dark-gray);">Administrar Sedes</h4>
+            <p class="text-muted">Añadir, editar y eliminar sedes (ubicaciones)</p>
+        </div>
+    </a>
+</div>
+<div class="col-md-5 col-lg-4">
+    <a href="{% url 'admin_perfiles' %}" class="text-decoration-none">
+        <div class="card location-card p-4 text-center h-100">
+            <i class="fas fa-user-cog fa-3x mb-3" style="color: var(--primary-orange);"></i>
+            <h4 class="fw-semibold" style="color: var(--dark-gray);">Administrar Perfiles</h4>
+            <p class="text-muted">Gestionar usuarios y verificar licencias</p>
+        </div>
+    </a>
+</div>
+
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

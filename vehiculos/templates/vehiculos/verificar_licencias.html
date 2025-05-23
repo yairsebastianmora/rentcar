@@ -1,0 +1,17 @@
+{% extends 'vehiculos/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h2>Verificar Licencias</h2>
+<table>
+  <tr><th>Usuario</th><th>Estado</th><th>Acción</th></tr>
+  {% for perfil in perfiles %}
+    <tr>
+      <td>{{ perfil.usuario.username }}</td>
+      <td>{% if perfil.licencia_verificada %}✅ Verificada{% else %}❌ No verificada{% endif %}</td>
+      <td><a href="{% url 'verificar_licencia' perfil.id_perfil %}">Ver imágenes</a></td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}

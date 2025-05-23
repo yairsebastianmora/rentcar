@@ -1,0 +1,54 @@
+{% extends "vehiculos/base.html" %}
+{% block title %}Gestión de Perfiles{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Gestión de Perfiles</h1>
+
+    {% if perfiles %}
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Usuario</th>
+                    <th>Teléfono</th>
+                    <th>Dirección</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Foto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for perfil in perfiles %}
+                    <tr>
+                        <td>{{ perfil.usuario.username }}</td>
+                        <td>{{ perfil.telefono }}</td>
+                        <td>{{ perfil.direccion }}</td>
+                        <td>{{ perfil.fecha_nacimiento|date:"Y-m-d" }}</td>
+                        <td>
+                            {% if perfil.foto %}
+                                <img src="{{ perfil.foto.url }}" alt="Foto de perfil" width="50" height="50" class="rounded-circle">
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if perfil.usuario == user %}
+                                <a href="{% url 'editar_perfil'%}" class="btn btn-sm btn-primary">Editar</a>
+                                <form action="{% url 'eliminar_perfil' perfil.id_perfil %}" method="POST" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar tu perfil?')">Eliminar</button>
+                                </form>
+                            {% else %}
+                                <span class="text-muted">Sin permisos</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay perfiles registrados.</p>
+    {% endif %}
+</div>
+{% endblock %}
+

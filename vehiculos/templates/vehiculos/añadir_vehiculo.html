@@ -1,0 +1,121 @@
+{% extends 'vehiculos/base.html' %}
+
+{% block title %}Añadir Vehículo{% endblock %}
+
+{% block content %}
+{% if messages %}
+<div aria-live="polite" aria-atomic="true" class="position-relative">
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    {% for message in messages %}
+      <div class="toast align-items-center text-white bg-success border-0 show" role="alert">
+        <div class="d-flex">
+          <div class="toast-body">
+            {{ message }}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-orange text-white">
+                    <h4 class="mb-0">Añadir Vehículo</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">  <!-- enctype agregado -->
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="id_modelo" class="form-label">Modelo</label>
+                            {{ vehiculo_form.modelo }}
+                            {% for error in vehiculo_form.modelo.errors %}
+                              <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_tipo" class="form-label">Tipo</label>
+                            {{ vehiculo_form.tipo }}
+                            {% for error in vehiculo_form.tipo.errors %}
+                              <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_placa" class="form-label">Placa</label>
+                            {{ vehiculo_form.placa }}
+                            {% for error in vehiculo_form.placa.errors %}
+                              <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_imagen" class="form-label">Imagen</label>
+                            {{ vehiculo_form.imagen }}
+                            {% for error in vehiculo_form.imagen.errors %}
+                              <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3">
+                        <label for="id_ubicacion" class="form-label">Ubicación</label>
+                        {{ vehiculo_form.ubicacion }}
+                        {% for error in vehiculo_form.ubicacion.errors %}
+                         <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                          </div>
+
+                        <div class="mb-3">
+                            <label for="id_activo" class="form-label">Activo</label>
+                            {{ vehiculo_form.activo }}
+                            {% for error in vehiculo_form.activo.errors %}
+                              <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_disponible" class="form-label">Disponible</label>
+                            {{ vehiculo_form.disponible }}
+                            {% for error in vehiculo_form.disponible.errors %}
+                              <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                         <div class="mb-3">
+                            <label for="id_precio_reserva" class="form-label">Precio Reserva</label>
+                            {{ vehiculo_form.precio_reserva }}
+                            {% for error in vehiculo_form.precio_reserva.errors %}
+                              <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_precio_renta" class="form-label">Precio Renta</label>
+                            {{ vehiculo_form.precio_renta }}
+                            {% for error in vehiculo_form.precio_renta.errors %}
+                              <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <button type="submit" class="btn btn-orange w-100">Guardar Vehículo</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  const toastElList = [].slice.call(document.querySelectorAll('.toast'))
+  const toastList = toastElList.map(function (toastEl) {
+    return new bootstrap.Toast(toastEl, { delay: 3000 });
+  });
+  toastList.forEach(toast => toast.show());
+</script>
+{% endblock %}
+
+

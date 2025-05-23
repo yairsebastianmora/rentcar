@@ -1,0 +1,43 @@
+{% extends 'vehiculos/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Licencia de {{ perfil.usuario.username }}</h4>
+    </div>
+
+    <div class="card-body">
+      <p><strong>Número de licencia:</strong> {{ perfil.numero_licencia }}</p>
+
+      <div class="row mt-4">
+        <div class="col-md-6 text-center">
+          <p class="fw-semibold">Imagen frontal</p>
+          <img src="{{ perfil.licencia_frontal.url }}" class="img-fluid rounded shadow-sm" alt="Frontal" style="max-width: 100%; height: auto;">
+        </div>
+        <div class="col-md-6 text-center">
+          <p class="fw-semibold">Imagen trasera</p>
+          <img src="{{ perfil.licencia_trasera.url }}" class="img-fluid rounded shadow-sm" alt="Trasera" style="max-width: 100%; height: auto;">
+        </div>
+      </div>
+
+      <div class="mt-4 text-center">
+        {% if not perfil.licencia_verificada %}
+          <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success btn-lg">
+              <i class="fas fa-check-circle me-2"></i>Verificar Licencia
+            </button>
+          </form>
+        {% else %}
+          <div class="alert alert-info mt-3" role="alert">
+            <i class="fas fa-check-circle me-2"></i>Esta licencia ya ha sido verificada.
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

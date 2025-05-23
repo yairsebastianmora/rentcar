@@ -1,0 +1,26 @@
+{% extends 'vehiculos/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Vehículos disponibles en {{ ubicacion }}</h2>
+    <p>Desde {{ fecha_recojo }} hasta {{ fecha_devolucion }}</p>
+
+    <div class="row">
+        {% for vehiculo in vehiculos %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ vehiculo.imagen }}" class="card-img-top" alt="{{ vehiculo.modelo }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ vehiculo.modelo }}</h5>
+                    <p class="card-text">Tipo: {{ vehiculo.tipo }}<br>Placa: {{ vehiculo.placa }}</p>
+                    <p><strong>Precio por día:</strong> ${{ precios.vehiculo.id_vehiculo }}</p>
+                    <a href="#" class="btn btn-primary">Reservar</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No hay vehículos disponibles para esta ubicación y fechas.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

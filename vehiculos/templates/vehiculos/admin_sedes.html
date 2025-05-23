@@ -1,0 +1,48 @@
+{% extends 'vehiculos/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">{{ sede_a_editar|yesno:"Editar Sede,Nueva Sede" }}</h2>
+
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">
+            {{ sede_a_editar|yesno:"Actualizar,Guardar" }}
+        </button>
+        {% if sede_a_editar %}
+            <a href="{% url 'administrar_sedes' %}" class="btn btn-secondary">Cancelar</a>
+        {% endif %}
+    </form>
+
+    <h3>Lista de Sedes</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Ciudad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sede in sedes %}
+                <tr>
+                    <td>{{ sede.nombre }}</td>
+                    <td>{{ sede.ciudad }}</td>
+                    <td>
+                        <a href="{% url 'editar_sede' sede.id_ubicacion %}" class="btn btn-primary btn-sm">Editar</a>
+                        <a href="{% url 'eliminar_sede' sede.id_ubicacion %}" class="btn btn-danger btn-sm" 
+                           onclick="return confirm('¿Estás seguro de eliminar esta sede?');">Eliminar</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No hay sedes registradas.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

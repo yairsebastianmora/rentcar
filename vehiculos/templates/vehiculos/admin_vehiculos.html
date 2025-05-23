@@ -1,0 +1,52 @@
+{% extends 'vehiculos/base.html' %}
+{% block content %}
+<div class="container my-4">
+    <h2>Administrar Vehículos</h2>
+    <a href="{% url 'añadir_vehiculo' %}" class="btn btn-orange mb-3">Añadir Vehículo</a>
+
+    <table class="table table-borderless">
+      <thead>
+        <tr>
+          <th>Imagen</th>
+          <th>Modelo</th>
+          <th>Tipo</th>
+          <th>Placa</th>
+          <th>Ubicacion</th>
+          <th>Precio Renta</th>
+          <th>Precio Reserva</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for vehiculo in vehiculos %}
+        <tr>
+          <form method="post" action="{% url 'admin_vehiculos' %}">
+            {% csrf_token %}
+            <input type="hidden" name="vehiculo_id" value="{{ vehiculo.id_vehiculo }}">
+
+            <td>
+              <img src="{{ vehiculo.imagen }}" alt="Imagen {{ vehiculo.modelo }}" style="width:100px; height:auto;"><br>
+              <input type="text" name="vehiculo_{{ vehiculo.id_vehiculo }}-imagen" value="{{ vehiculo.imagen }}" placeholder="URL imagen" class="form-control form-control-sm mt-1">
+            </td>
+            <td><input type="text" name="vehiculo_{{ vehiculo.id_vehiculo }}-modelo" value="{{ vehiculo.modelo }}" class="form-control form-control-sm"></td>
+            <td><input type="text" name="vehiculo_{{ vehiculo.id_vehiculo }}-tipo" value="{{ vehiculo.tipo }}" class="form-control form-control-sm"></td>
+            <td><input type="text" name="vehiculo_{{ vehiculo.id_vehiculo }}-placa" value="{{ vehiculo.placa }}" class="form-control form-control-sm"></td>
+             <td><input type="text" name="vehiculo_{{ vehiculo.id_vehiculo }}-ubicacion" value="{{ vehiculo.ubicacion }}" class="form-control form-control-sm"></td>
+            <td>
+             <input type="text" name="vehiculo_{{ vehiculo.id_vehiculo }}-precio_renta" value="{{ vehiculo.precio_renta }}" class="form-control form-control-sm">
+            </td>
+            <td>
+             <input type="text" name="vehiculo_{{ vehiculo.id_vehiculo }}-precio_reserva" value="{{ vehiculo.precio_reserva }}" class="form-control form-control-sm">
+            </td>
+            <td>
+              <button type="submit" name="editar_vehiculo" class="btn btn-success btn-sm mb-1">Guardar</button><br>
+              <button type="submit" name="eliminar_vehiculo" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
+            </td>
+          </form>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% endblock %}
+
